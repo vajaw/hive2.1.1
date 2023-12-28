@@ -573,12 +573,16 @@ public class HiveSessionImpl implements HiveSession {
     acquire(true, true);
 
     OperationManager operationManager = getOperationManager();
+    // 获取databases列表的操作类型
     GetSchemasOperation operation =
         operationManager.newGetSchemasOperation(getSession(), catalogName, schemaName);
     OperationHandle opHandle = operation.getHandle();
     try {
+      // 执行操作
       operation.run();
+      // 在进程中，将该活跃的操作放到活跃操作集合中
       addOpHandle(opHandle);
+      // 将该操作返回
       return opHandle;
     } catch (HiveSQLException e) {
       operationManager.closeOperation(opHandle);
@@ -595,12 +599,16 @@ public class HiveSessionImpl implements HiveSession {
     acquire(true, true);
 
     OperationManager operationManager = getOperationManager();
+    // 获取table元数据的操作类型
     MetadataOperation operation =
         operationManager.newGetTablesOperation(getSession(), catalogName, schemaName, tableName, tableTypes);
     OperationHandle opHandle = operation.getHandle();
     try {
+      // 执行操作
       operation.run();
+      // 在进程中，将该活跃的操作放到活跃操作集合中
       addOpHandle(opHandle);
+      // 将该操作返回
       return opHandle;
     } catch (HiveSQLException e) {
       operationManager.closeOperation(opHandle);

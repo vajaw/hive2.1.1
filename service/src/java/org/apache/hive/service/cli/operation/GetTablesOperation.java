@@ -64,7 +64,7 @@ public class GetTablesOperation extends MetadataOperation {
       "Name of the designated \"identifier\" column of a typed table.")
   .addStringColumn("REF_GENERATION",
       "Specifies how values in SELF_REFERENCING_COL_NAME are created.");
-
+ // 获取操作类型
   protected GetTablesOperation(HiveSession parentSession,
       String catalogName, String schemaName, String tableName,
       List<String> tableTypes) {
@@ -87,10 +87,12 @@ public class GetTablesOperation extends MetadataOperation {
     this.rowSet = RowSetFactory.create(RESULT_SET_SCHEMA, getProtocolVersion(), false);
   }
 
+  // 执行操作
   @Override
   public void runInternal() throws HiveSQLException {
     setState(OperationState.RUNNING);
     try {
+      // 获取MSC
       IMetaStoreClient metastoreClient = getParentSession().getMetaStoreClient();
       String schemaPattern = convertSchemaPattern(schemaName);
       List<String> matchingDbs = metastoreClient.getDatabases(schemaPattern);
@@ -101,7 +103,7 @@ public class GetTablesOperation extends MetadataOperation {
       }
 
       String tablePattern = convertIdentifierPattern(tableName, true);
-
+      // 调用 getTableMeta 获取到结果放到RowSet 中
       for (TableMeta tableMeta :
           metastoreClient.getTableMeta(schemaPattern, tablePattern, tableTypeList)) {
         rowSet.addRow(new Object[] {

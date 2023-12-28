@@ -287,6 +287,8 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
 
   private MetaStoreFilterHook loadFilterHooks() throws IllegalStateException {
     Class<? extends MetaStoreFilterHook> authProviderClass = conf.
+            // Hive集成Sentry时会将 hive.metastore.filter.hook 配置为如下
+            // org.apache.sentry.binding.metastore.SentryMetaStoreFilterHook
         getClass(HiveConf.ConfVars.METASTORE_FILTER_HOOK.varname,
             DefaultMetaStoreFilterHookImpl.class,
             MetaStoreFilterHook.class);
@@ -1134,6 +1136,8 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
   public List<String> getDatabases(String databasePattern)
     throws MetaException {
     try {
+      // client.get_databases(databasePattern) 会先从HMS上获取到database列表
+      // filterHook.filterTableNames 会将无权限的库过滤掉
       return filterHook.filterDatabases(client.get_databases(databasePattern));
     } catch (Exception e) {
       MetaStoreUtils.logAndThrowMetaException(e);
@@ -1374,6 +1378,8 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
   @Override
   public List<String> getTables(String dbname, String tablePattern) throws MetaException {
     try {
+      // client.get_tables(dbname, tablePattern) 会先从HMS上获取到table列表
+      // filterHook.filterTableNames 会将无权限的表过滤掉
       return filterHook.filterTableNames(dbname, client.get_tables(dbname, tablePattern));
     } catch (Exception e) {
       MetaStoreUtils.logAndThrowMetaException(e);
@@ -1381,10 +1387,12 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
     return null;
   }
 
+
   @Override
   public List<TableMeta> getTableMeta(String dbPatterns, String tablePatterns, List<String> tableTypes)
       throws MetaException {
     try {
+      // 获取table元数据？
       return filterNames(client.get_table_meta(dbPatterns, tablePatterns, tableTypes));
     } catch (Exception e) {
       MetaStoreUtils.logAndThrowMetaException(e);

@@ -56,7 +56,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * SessionManager.
- *
  */
 public class SessionManager extends CompositeService {
 
@@ -385,6 +384,7 @@ public class SessionManager extends CompositeService {
     }
   }
 
+  // 通过Session 句柄获取到 HiveSession
   public HiveSession getSession(SessionHandle sessionHandle) throws HiveSQLException {
     HiveSession session = handleToSession.get(sessionHandle);
     if (session == null) {

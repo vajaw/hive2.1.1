@@ -130,18 +130,22 @@ public class OperationManager extends AbstractService {
     return operation;
   }
 
+  // 客户端发送show databases like '%qwe%' 命令时，该方法将会被调用
   public GetSchemasOperation newGetSchemasOperation(HiveSession parentSession,
       String catalogName, String schemaName) {
     GetSchemasOperation operation = new GetSchemasOperation(parentSession, catalogName, schemaName);
+    // 一旦创建了 SHOW DATABASES like '%qwe%' 的操作，addOperation 方法会将该操作添加到操作管理器中，以便进行跟踪和管理。
     addOperation(operation);
     return operation;
   }
 
+  // 客户端发送show create tables 命令时，该方法将会被调用
   public MetadataOperation newGetTablesOperation(HiveSession parentSession,
       String catalogName, String schemaName, String tableName,
       List<String> tableTypes) {
     MetadataOperation operation =
         new GetTablesOperation(parentSession, catalogName, schemaName, tableName, tableTypes);
+    // 一旦创建了 show create tables  的操作，addOperation 方法会将该操作添加到操作管理器中，以便进行跟踪和管理。
     addOperation(operation);
     return operation;
   }

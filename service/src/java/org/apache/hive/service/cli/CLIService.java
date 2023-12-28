@@ -63,6 +63,7 @@ public class CLIService extends CompositeService implements ICLIService {
   private final Logger LOG = LoggerFactory.getLogger(CLIService.class.getName());
 
   private HiveConf hiveConf;
+  // 管理 Session
   private SessionManager sessionManager;
   private UserGroupInformation serviceUGI;
   private UserGroupInformation httpUGI;
@@ -322,6 +323,7 @@ public class CLIService extends CompositeService implements ICLIService {
     return opHandle;
   }
 
+  // 通过session句柄 获取到Operation句柄
   /* (non-Javadoc)
    * @see org.apache.hive.service.cli.ICLIService#getSchemas(org.apache.hive.service.cli.SessionHandle, java.lang.String, java.lang.String)
    */

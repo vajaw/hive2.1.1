@@ -46,6 +46,7 @@ public class GetSchemasOperation extends MetadataOperation {
 
   private RowSet rowSet;
 
+  // 获取操作类型
   protected GetSchemasOperation(HiveSession parentSession, String catalogName, String schemaName) {
     super(parentSession, OperationType.GET_SCHEMAS);
     this.catalogName = catalogName;
@@ -61,8 +62,11 @@ public class GetSchemasOperation extends MetadataOperation {
       authorizeMetaGets(HiveOperationType.GET_SCHEMAS, null, cmdStr);
     }
     try {
+      // 获取HSC
       IMetaStoreClient metastoreClient = getParentSession().getMetaStoreClient();
       String schemaPattern = convertSchemaPattern(schemaName);
+      // 调用HSC.getDatabases(schemaPattern) 获取到结果放到RowSet 中
+      // show databases like '%ss%'
       for (String dbName : metastoreClient.getDatabases(schemaPattern)) {
         rowSet.addRow(new Object[] {dbName, DEFAULT_HIVE_CATALOG});
       }

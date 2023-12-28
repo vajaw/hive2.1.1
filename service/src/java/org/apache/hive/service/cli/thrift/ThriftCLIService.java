@@ -546,12 +546,16 @@ public abstract class ThriftCLIService extends AbstractService implements TCLISe
     return resp;
   }
 
+  // Thrift协议
+  // 接收 TGetTablesReq 请求返回 TGetTablesResp 响应
   @Override
   public TGetSchemasResp GetSchemas(TGetSchemasReq req) throws TException {
     TGetSchemasResp resp = new TGetSchemasResp();
     try {
+      // 从 cliService 中获取到 OperationHandle 操作句柄
       OperationHandle opHandle = cliService.getSchemas(
           new SessionHandle(req.getSessionHandle()), req.getCatalogName(), req.getSchemaName());
+      // 将 OperationHandle 转化为 TOperationHandle
       resp.setOperationHandle(opHandle.toTOperationHandle());
       resp.setStatus(OK_STATUS);
     } catch (Exception e) {
@@ -561,13 +565,17 @@ public abstract class ThriftCLIService extends AbstractService implements TCLISe
     return resp;
   }
 
+  // Thrift协议
+  // 接收 TGetTablesReq 请求返回 TGetTablesResp 响应
   @Override
   public TGetTablesResp GetTables(TGetTablesReq req) throws TException {
     TGetTablesResp resp = new TGetTablesResp();
     try {
+      // 从 cliService 中获取到 OperationHandle 操作句柄
       OperationHandle opHandle = cliService
           .getTables(new SessionHandle(req.getSessionHandle()), req.getCatalogName(),
               req.getSchemaName(), req.getTableName(), req.getTableTypes());
+      // 将 OperationHandle 转化为 TOperationHandle
       resp.setOperationHandle(opHandle.toTOperationHandle());
       resp.setStatus(OK_STATUS);
     } catch (Exception e) {

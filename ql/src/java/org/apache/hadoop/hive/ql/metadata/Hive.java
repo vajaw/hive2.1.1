@@ -154,6 +154,10 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  *
  * It is a thread local variable, and the instances is accessed using static
  * get methods in this class.
+ *
+ * 此类具有使用对元存储的调用来实现元数据/DDL操作的函数。
+ * 它有一个元存储客户端实例，用于与元存储通信。
+ * 它是一个线程局部变量，使用此类中的静态get方法访问实例。
  */
 
 @SuppressWarnings({"deprecation", "rawtypes"})

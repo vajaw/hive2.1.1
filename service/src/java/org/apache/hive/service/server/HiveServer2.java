@@ -87,7 +87,9 @@ import com.google.common.base.Joiner;
 public class HiveServer2 extends CompositeService {
   private static CountDownLatch deleteSignal;
   private static final Logger LOG = LoggerFactory.getLogger(HiveServer2.class);
+  //
   private CLIService cliService;
+  // thrift通信服务
   private ThriftCLIService thriftCLIService;
   private PersistentEphemeralNode znode;
   private String znodePath;
