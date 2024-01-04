@@ -148,6 +148,110 @@ public abstract class ShimLoader {
   }
 
   /**
+   在修改pom中的<project.cdh.version>2.1.1-cdh6.3.2</project.cdh.version>之前，报错如下
+
+   WARNING: Use "yarn jar" to launch YARN applications.
+   SLF4J: Class path contains multiple SLF4J bindings.
+   SLF4J: Found binding in [jar:file:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/jars/slf4j-log4j12-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+   SLF4J: Found binding in [jar:file:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/jars/log4j-slf4j-impl-2.8.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+   SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+   SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+   24/01/03 17:26:06 INFO conf.HiveConf: Found configuration file file:/etc/hive/conf.cloudera.hive/hive-site.xml
+
+   Logging initialized using configuration in jar:file:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/jars/hive-common-2.1.1-cdh6.3.2.jar!/hive-log4j2.properties Async: false
+   24/01/03 17:26:08 INFO SessionState:
+   Logging initialized using configuration in jar:file:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/jars/hive-common-2.1.1-cdh6.3.2.jar!/hive-log4j2.properties Async: false
+   24/01/03 17:26:09 INFO hive.metastore: Trying to connect to metastore with URI thrift://optimus30a142:9083
+   24/01/03 17:26:09 WARN metadata.Hive: Failed to register all functions.
+   java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
+   at org.apache.hadoop.hive.metastore.MetaStoreUtils.newInstance(MetaStoreUtils.java:1654)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.<init>(RetryingMetaStoreClient.java:80)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.getProxy(RetryingMetaStoreClient.java:130)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.getProxy(RetryingMetaStoreClient.java:101)
+   at org.apache.hadoop.hive.ql.metadata.Hive.createMetaStoreClient(Hive.java:3371)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getMSC(Hive.java:3410)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getMSC(Hive.java:3390)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getAllFunctions(Hive.java:3644)
+   at org.apache.hadoop.hive.ql.metadata.Hive.reloadFunctions(Hive.java:240)
+   at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:225)
+   at org.apache.hadoop.hive.ql.metadata.Hive.<init>(Hive.java:370)
+   at org.apache.hadoop.hive.ql.metadata.Hive.create(Hive.java:314)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getInternal(Hive.java:294)
+   at org.apache.hadoop.hive.ql.metadata.Hive.get(Hive.java:270)
+   at org.apache.hadoop.hive.ql.session.SessionState.start(SessionState.java:558)
+   at org.apache.hadoop.hive.ql.session.SessionState.beginStart(SessionState.java:531)
+   at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:763)
+   at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:699)
+   at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+   at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+   at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+   at java.lang.reflect.Method.invoke(Method.java:498)
+   at org.apache.hadoop.util.RunJar.run(RunJar.java:313)
+   at org.apache.hadoop.util.RunJar.main(RunJar.java:227)
+   Caused by: java.lang.reflect.InvocationTargetException
+   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+   at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+   at org.apache.hadoop.hive.metastore.MetaStoreUtils.newInstance(MetaStoreUtils.java:1652)
+   ... 23 more
+   Caused by: java.lang.IllegalArgumentException: Unrecognized Hadoop major version number: 3.0.0-cdh6.3.2
+   at org.apache.hadoop.hive.shims.ShimLoader.getMajorVersion(ShimLoader.java:169)
+   at org.apache.hadoop.hive.shims.ShimLoader.loadShims(ShimLoader.java:136)
+   at org.apache.hadoop.hive.shims.ShimLoader.getHadoopThriftAuthBridge(ShimLoader.java:122)
+   at org.apache.hadoop.hive.metastore.HiveMetaStoreClient.open(HiveMetaStoreClient.java:440)
+   at org.apache.hadoop.hive.metastore.HiveMetaStoreClient.<init>(HiveMetaStoreClient.java:285)
+   at org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient.<init>(SessionHiveMetaStoreClient.java:70)
+   ... 28 more
+   Exception in thread "main" java.lang.RuntimeException: org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
+   at org.apache.hadoop.hive.ql.session.SessionState.start(SessionState.java:591)
+   at org.apache.hadoop.hive.ql.session.SessionState.beginStart(SessionState.java:531)
+   at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:763)
+   at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:699)
+   at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+   at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+   at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+   at java.lang.reflect.Method.invoke(Method.java:498)
+   at org.apache.hadoop.util.RunJar.run(RunJar.java:313)
+   at org.apache.hadoop.util.RunJar.main(RunJar.java:227)
+   Caused by: org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
+   at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:230)
+   at org.apache.hadoop.hive.ql.metadata.Hive.<init>(Hive.java:370)
+   at org.apache.hadoop.hive.ql.metadata.Hive.create(Hive.java:314)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getInternal(Hive.java:294)
+   at org.apache.hadoop.hive.ql.metadata.Hive.get(Hive.java:270)
+   at org.apache.hadoop.hive.ql.session.SessionState.start(SessionState.java:558)
+   ... 9 more
+   Caused by: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
+   at org.apache.hadoop.hive.metastore.MetaStoreUtils.newInstance(MetaStoreUtils.java:1654)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.<init>(RetryingMetaStoreClient.java:80)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.getProxy(RetryingMetaStoreClient.java:130)
+   at org.apache.hadoop.hive.metastore.RetryingMetaStoreClient.getProxy(RetryingMetaStoreClient.java:101)
+   at org.apache.hadoop.hive.ql.metadata.Hive.createMetaStoreClient(Hive.java:3371)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getMSC(Hive.java:3410)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getMSC(Hive.java:3390)
+   at org.apache.hadoop.hive.ql.metadata.Hive.getAllFunctions(Hive.java:3644)
+   at org.apache.hadoop.hive.ql.metadata.Hive.reloadFunctions(Hive.java:240)
+   at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:225)
+   ... 14 more
+   Caused by: java.lang.reflect.InvocationTargetException
+   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+   at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+   at org.apache.hadoop.hive.metastore.MetaStoreUtils.newInstance(MetaStoreUtils.java:1652)
+   ... 23 more
+   Caused by: java.lang.IllegalArgumentException: Unrecognized Hadoop major version number: 3.0.0-cdh6.3.2
+   at org.apache.hadoop.hive.shims.ShimLoader.getMajorVersion(ShimLoader.java:169)
+   at org.apache.hadoop.hive.shims.ShimLoader.loadShims(ShimLoader.java:136)
+   at org.apache.hadoop.hive.shims.ShimLoader.getHadoopThriftAuthBridge(ShimLoader.java:122)
+   at org.apache.hadoop.hive.metastore.HiveMetaStoreClient.open(HiveMetaStoreClient.java:440)
+   at org.apache.hadoop.hive.metastore.HiveMetaStoreClient.<init>(HiveMetaStoreClient.java:285)
+   at org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient.<init>(SessionHiveMetaStoreClient.java:70)
+   ... 28 more
+
+   */
+  /**
    * Return the "major" version of Hadoop currently on the classpath.
    * Releases in the 1.x and 2.x series are mapped to the appropriate
    * 0.x release series, e.g. 1.x is mapped to "0.20S" and 2.x

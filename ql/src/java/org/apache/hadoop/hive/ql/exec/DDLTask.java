@@ -2343,11 +2343,15 @@ public class DDLTask extends Task<DDLWork> implements Serializable {
       databases = db.getAllDatabases();
     }
     LOG.info("results : " + databases.size());
+    LOG.info("=============请不要在hive命令行中执行此命令==========");
 
     // write the results in the file
     DataOutputStream outStream = getOutputStream(showDatabasesDesc.getResFile());
     try {
-      formatter.showDatabases(outStream, databases);
+      // formatter.showDatabases(outStream, databases);
+      List<String> test = new ArrayList<>();
+      test.add("do not use show databases cmd in hive cli");
+      formatter.showDatabases(outStream, test);
     } catch (Exception e) {
       throw new HiveException(e, ErrorMsg.GENERIC_ERROR, "show databases");
     } finally {
@@ -2382,12 +2386,15 @@ public class DDLTask extends Task<DDLWork> implements Serializable {
     } else {
       tbls = db.getAllTables(dbName);
     }
-
+    LOG.info("=============请不要在hive命令行中执行此命令==========");
     // write the results in the file
     DataOutputStream outStream = getOutputStream(showTbls.getResFile());
     try {
-      SortedSet<String> sortedTbls = new TreeSet<String>(tbls);
-      formatter.showTables(outStream, sortedTbls);
+      // SortedSet<String> sortedTbls = new TreeSet<String>(tbls);
+      // formatter.showTables(outStream, sortedTbls);
+      SortedSet<String> test = new TreeSet<String>();
+      test.add("do not use show tables cmd in hive cli");
+      formatter.showTables(outStream, test);
     } catch (Exception e) {
       throw new HiveException(e, ErrorMsg.GENERIC_ERROR, "in database" + dbName);
     } finally {

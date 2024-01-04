@@ -29,6 +29,7 @@
 
   <properties>
     <hive.path.to.root>..</hive.path.to.root>
+    <project.cdh.version>2.1.1-cdh6.3.2</project.cdh.version>
   </properties>
 
   <dependencies>
@@ -61,32 +62,32 @@
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-metastore</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-serde</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-service-rpc</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-llap-client</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-llap-tez</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-shims</artifactId>
-      <version>${project.version}</version>
+      <version>${project.cdh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
@@ -361,7 +362,7 @@
       <version>${calcite.version}</version>
       <exclusions>
         <!-- hsqldb interferes with the use of derby as the default db
-          in hive's use of datanucleus. 
+          in hive's use of datanucleus.
         -->
         <exclusion>
           <groupId>org.hsqldb</groupId>
@@ -380,14 +381,14 @@
           <artifactId>jackson-core</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>   
+    </dependency>
     <dependency>
       <groupId>org.apache.calcite</groupId>
       <artifactId>calcite-avatica</artifactId>
       <version>${calcite.version}</version>
       <exclusions>
         <!-- hsqldb interferes with the use of derby as the default db
-          in hive's use of datanucleus. 
+          in hive's use of datanucleus.
         -->
         <exclusion>
           <groupId>org.hsqldb</groupId>

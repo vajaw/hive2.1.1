@@ -1145,6 +1145,10 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
     return null;
   }
 
+
+  /**
+   获取所有的库名
+   */
   /** {@inheritDoc} */
   @Override
   public List<String> getAllDatabases() throws MetaException {
@@ -1420,6 +1424,9 @@ public class HiveMetaStoreClient implements IMetaStoreClient {
     return filtered;
   }
 
+  /**
+   获取所有的表名
+   */
   /** {@inheritDoc} */
   @Override
   public List<String> getAllTables(String dbname) throws MetaException {
